@@ -32,6 +32,15 @@ export default defineConfig({
       scss: {}
     }
   },
+  server: {
+    proxy: {
+      // Forward API calls to the backend during development (see the root README).
+      '/api': {
+        target: process.env.API_PROXY_TARGET || 'http://127.0.0.1:3000',
+        changeOrigin: true
+      }
+    }
+  },
   build: {
     chunkSizeWarningLimit: 1024 * 1024 // Set the limit to 1 MB
   },

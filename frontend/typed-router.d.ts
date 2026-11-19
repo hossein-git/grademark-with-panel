@@ -31,11 +31,39 @@ declare module 'vue-router/auto-routes' {
       '/',
       Record<never, never>,
       Record<never, never>,
+      | '/(main)/backtesting/backtests/[id]'
+      | '/(main)/backtesting/results/'
+      | '/(main)/backtesting/results/[strategyId]'
+      | '/(main)/backtesting/run'
       | '/(main)/dashboard/default'
-      | '/(main)/starter'
-      | '/(main)/utils/color'
-      | '/(main)/utils/shadow'
-      | '/(main)/utils/typography'
+    >,
+    '/(main)/backtesting/backtests/[id]': RouteRecordInfo<
+      '/(main)/backtesting/backtests/[id]',
+      '/backtesting/backtests/:id',
+      { id: ParamValue<true> },
+      { id: ParamValue<false> },
+      | never
+    >,
+    '/(main)/backtesting/results/': RouteRecordInfo<
+      '/(main)/backtesting/results/',
+      '/backtesting/results',
+      Record<never, never>,
+      Record<never, never>,
+      | never
+    >,
+    '/(main)/backtesting/results/[strategyId]': RouteRecordInfo<
+      '/(main)/backtesting/results/[strategyId]',
+      '/backtesting/results/:strategyId',
+      { strategyId: ParamValue<true> },
+      { strategyId: ParamValue<false> },
+      | never
+    >,
+    '/(main)/backtesting/run': RouteRecordInfo<
+      '/(main)/backtesting/run',
+      '/backtesting/run',
+      Record<never, never>,
+      Record<never, never>,
+      | never
     >,
     '/(main)/dashboard/default': RouteRecordInfo<
       '/(main)/dashboard/default',
@@ -44,44 +72,9 @@ declare module 'vue-router/auto-routes' {
       Record<never, never>,
       | never
     >,
-    '/(main)/starter': RouteRecordInfo<
-      '/(main)/starter',
-      '/starter',
-      Record<never, never>,
-      Record<never, never>,
-      | never
-    >,
-    '/(main)/utils/color': RouteRecordInfo<
-      '/(main)/utils/color',
-      '/utils/color',
-      Record<never, never>,
-      Record<never, never>,
-      | never
-    >,
-    '/(main)/utils/shadow': RouteRecordInfo<
-      '/(main)/utils/shadow',
-      '/utils/shadow',
-      Record<never, never>,
-      Record<never, never>,
-      | never
-    >,
-    '/(main)/utils/typography': RouteRecordInfo<
-      '/(main)/utils/typography',
-      '/utils/typography',
-      Record<never, never>,
-      Record<never, never>,
-      | never
-    >,
     '/authentication/login': RouteRecordInfo<
       '/authentication/login',
       '/authentication/login',
-      Record<never, never>,
-      Record<never, never>,
-      | never
-    >,
-    '/authentication/register': RouteRecordInfo<
-      '/authentication/register',
-      '/authentication/register',
       Record<never, never>,
       Record<never, never>,
       | never
@@ -109,13 +102,37 @@ declare module 'vue-router/auto-routes' {
     'src/pages/(main).vue': {
       routes:
         | '/(main)'
+        | '/(main)/backtesting/backtests/[id]'
+        | '/(main)/backtesting/results/'
+        | '/(main)/backtesting/results/[strategyId]'
+        | '/(main)/backtesting/run'
         | '/(main)/dashboard/default'
-        | '/(main)/starter'
-        | '/(main)/utils/color'
-        | '/(main)/utils/shadow'
-        | '/(main)/utils/typography'
       views:
         | 'default'
+    }
+    'src/pages/(main)/backtesting/backtests/[id].vue': {
+      routes:
+        | '/(main)/backtesting/backtests/[id]'
+      views:
+        | never
+    }
+    'src/pages/(main)/backtesting/results/index.vue': {
+      routes:
+        | '/(main)/backtesting/results/'
+      views:
+        | never
+    }
+    'src/pages/(main)/backtesting/results/[strategyId].vue': {
+      routes:
+        | '/(main)/backtesting/results/[strategyId]'
+      views:
+        | never
+    }
+    'src/pages/(main)/backtesting/run.vue': {
+      routes:
+        | '/(main)/backtesting/run'
+      views:
+        | never
     }
     'src/pages/(main)/dashboard/default.vue': {
       routes:
@@ -123,39 +140,9 @@ declare module 'vue-router/auto-routes' {
       views:
         | never
     }
-    'src/pages/(main)/starter.vue': {
-      routes:
-        | '/(main)/starter'
-      views:
-        | never
-    }
-    'src/pages/(main)/utils/color.vue': {
-      routes:
-        | '/(main)/utils/color'
-      views:
-        | never
-    }
-    'src/pages/(main)/utils/shadow.vue': {
-      routes:
-        | '/(main)/utils/shadow'
-      views:
-        | never
-    }
-    'src/pages/(main)/utils/typography.vue': {
-      routes:
-        | '/(main)/utils/typography'
-      views:
-        | never
-    }
     'src/pages/authentication/login.vue': {
       routes:
         | '/authentication/login'
-      views:
-        | never
-    }
-    'src/pages/authentication/register.vue': {
-      routes:
-        | '/authentication/register'
       views:
         | never
     }

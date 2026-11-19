@@ -1,15 +1,4 @@
-import {
-  CircleIcon,
-  WindmillIcon,
-  TypographyIcon,
-  ShadowIcon,
-  PaletteIcon,
-  KeyIcon,
-  BugIcon,
-  DashboardIcon,
-  BrandChromeIcon,
-  HelpIcon
-} from 'vue-tabler-icons';
+import { DashboardIcon, PlayerPlayIcon, ReportAnalyticsIcon } from 'vue-tabler-icons';
 
 export interface menu {
   header?: string;
@@ -35,51 +24,16 @@ const sidebarItem: menu[] = [
     to: '/dashboard/default'
   },
   { divider: true },
-  { header: 'Pages' },
+  { header: 'Backtesting' },
   {
-    title: 'Authentication',
-    icon: KeyIcon,
-    to: '/auth',
-    children: [
-      {
-        title: 'Login',
-        icon: CircleIcon,
-        to: '/authentication/login'
-      },
-      {
-        title: 'Register',
-        icon: CircleIcon,
-        to: '/authentication/register'
-      }
-    ]
+    title: 'Run Backtest',
+    icon: PlayerPlayIcon,
+    to: '/backtesting/run'
   },
   {
-    title: 'Error 404',
-    icon: BugIcon,
-    to: '/maintenance/error'
-  },
-  { divider: true },
-  { header: 'Utilities' },
-  {
-    title: 'Typography',
-    icon: TypographyIcon,
-    to: '/utils/typography'
-  },
-  {
-    title: 'Shadows',
-    icon: ShadowIcon,
-    to: '/utils/shadow'
-  },
-  {
-    title: 'Colors',
-    icon: PaletteIcon,
-    to: '/utils/color'
-  },
-  { divider: true },
-  {
-    title: 'Sample Page',
-    icon: BrandChromeIcon,
-    to: '/starter'
+    title: 'Results',
+    icon: ReportAnalyticsIcon,
+    to: '/backtesting/results'
   }
 ];
 

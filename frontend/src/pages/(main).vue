@@ -9,7 +9,7 @@ import FullLayout from '@/layouts/full/FullLayout.vue';
 <route lang="json">
 {
   "meta": {
-    "requiresAuth": false
+    "requiresAuth": true
   }
 }
 </route>

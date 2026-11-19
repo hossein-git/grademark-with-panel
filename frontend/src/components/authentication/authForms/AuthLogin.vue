@@ -1,14 +1,45 @@
 <script setup lang="ts">
 import { ref } from 'vue';
+import { useRoute, useRouter } from 'vue-router';
 import Google from '@/assets/images/auth/social-google.svg';
+import { useAuthStore } from '@/stores/auth';
+import { getPostLoginPath } from '@/router';
+import { getErrorMessage } from '@/utils/api';
 
+const auth = useAuthStore();
+const router = useRouter();
+const route = useRoute();
+
+const loginForm = ref();
+const email = ref('');
+const password = ref('');
 const checkbox = ref(false);
 const show1 = ref(false);
-const passwordRules = ref([
-  (v: string) => !!v || 'Password is required',
-  (v: string) => (v && v.length <= 10) || 'Password must be less than 10 characters'
-]);
+const loading = ref(false);
+const errorMessage = ref('');
+
+// Only check that a password was entered. Strength rules belong to account creation,
+// not to login.
+const passwordRules = ref([(v: string) => !!v || 'Password is required']);
 const emailRules = ref([(v: string) => !!v || 'E-mail is required', (v: string) => /.+@.+\..+/.test(v) || 'E-mail must be valid']);
+
+async function submit() {
+  if (loading.value) return;
+  errorMessage.value = '';
+
+  const { valid } = await loginForm.value.validate();
+  if (!valid) return;
+
+  loading.value = true;
+  try {
+    await auth.login(email.value.trim(), password.value, checkbox.value);
+    await router.push(getPostLoginPath(route.query));
+  } catch (error) {
+    errorMessage.value = getErrorMessage(error, 'Login failed. Please try again.');
+  } finally {
+    loading.value = false;
+  }
+}
 </script>
 
 <template>
@@ -24,38 +55,42 @@ const emailRules = ref([(v: string) => !!v || 'E-mail is required', (v: string) 
     </v-col>
   </v-row>
   <h5 class="text-center my-4 mb-8">Sign in with Email address</h5>
-  <form @submit.prevent class="mt-7 loginForm">
-    <v-text-field :rules="emailRules" label="Email Address / Username" class="mt-4 mb-8" required hide-details="auto"></v-text-field>
+  <v-form ref="loginForm" @submit.prevent="submit" class="mt-7 loginForm">
+    <v-alert v-if="errorMessage" type="error" variant="tonal" density="compact" class="mb-6" data-test="login-error">
+      {{ errorMessage }}
+    </v-alert>
     <v-text-field
+      v-model="email"
+      :rules="emailRules"
+      label="Email Address"
+      type="email"
+      autocomplete="username"
+      class="mt-4 mb-8"
+      required
+      hide-details="auto"
+    ></v-text-field>
+    <v-text-field
+      v-model="password"
       :rules="passwordRules"
       label="Password"
+      autocomplete="current-password"
       required
       hide-details="auto"
       :append-inner-icon="show1 ? '$eye' : '$eyeOff'"
       :type="show1 ? 'text' : 'password'"
-      @click:append="show1 = !show1"
+      @click:append-inner="show1 = !show1"
     ></v-text-field>
 
     <div class="d-sm-flex align-center mt-2 mb-7 mb-sm-0">
-      <v-checkbox
-        v-model="checkbox"
-        :rules="[(v: any) => !!v || 'You must agree to continue!']"
-        label="Remember me?"
-        required
-        color="primary"
-        class="ms-n2"
-        hide-details
-      ></v-checkbox>
+      <v-checkbox v-model="checkbox" label="Remember me?" color="primary" class="ms-n2" hide-details></v-checkbox>
       <div class="ml-auto">
         <a href="javascript:void(0)" class="text-primary text-decoration-none">Forgot password?</a>
       </div>
     </div>
-    <v-btn color="secondary" block class="mt-2" variant="flat" size="large" :disabled="false" type="submit"> Sign In</v-btn>
-  </form>
-  <div class="mt-5 text-right">
-    <v-divider />
-    <v-btn variant="plain" to="/register" class="mt-2 text-capitalize mr-n2">Don't Have an account?</v-btn>
-  </div>
+    <v-btn color="secondary" block class="mt-2" variant="flat" size="large" :loading="loading" :disabled="loading" type="submit">
+      Sign In</v-btn
+    >
+  </v-form>
 </template>
 <style lang="scss">
 .custom-devider {

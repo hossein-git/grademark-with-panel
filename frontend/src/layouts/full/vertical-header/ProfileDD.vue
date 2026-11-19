@@ -1,9 +1,20 @@
 <script setup lang="ts">
 import { ref } from 'vue';
+import { useRouter } from 'vue-router';
 import { SettingsIcon, LogoutIcon, UserIcon } from 'vue-tabler-icons';
+import { useAuthStore } from '@/stores/auth';
+import { LOGIN_PATH } from '@/router';
 
 const swt1 = ref(true);
 const swt2 = ref(false);
+
+const auth = useAuthStore();
+const router = useRouter();
+
+async function logout() {
+  await auth.logout();
+  await router.push(LOGIN_PATH);
+}
 </script>
 
 <template>
@@ -12,8 +23,10 @@ const swt2 = ref(false);
   <!-- ---------------------------------------------- -->
   <div class="pt-4">
     <div class="px-4">
-      <h4 class="mb-n1">Good Morning, <span class="font-weight-regular">John Doe</span></h4>
-      <span class="text-body-small text-medium-emphasis">Project admin</span>
+      <h4 class="mb-n1">
+        Good Morning, <span class="font-weight-regular">{{ auth.user?.name }}</span>
+      </h4>
+      <span class="text-body-small text-medium-emphasis text-capitalize">{{ auth.user?.role }}</span>
 
       <v-text-field persistent-placeholder placeholder="Search" class="my-3" hide-details>
         <template v-slot:prepend-inner>
@@ -63,7 +76,7 @@ const swt2 = ref(false);
             </template>
           </v-list-item>
 
-          <v-list-item color="secondary" rounded="md">
+          <v-list-item color="secondary" rounded="md" @click="logout">
             <template v-slot:prepend>
               <LogoutIcon size="20" class="mr-2" />
             </template>
