@@ -5,6 +5,14 @@
     "main": "build/index.js",
     "types": "build/index.d.ts",
     "scripts": {
+        "prestart": "npm run build",
+        "start": "node --env-file-if-exists=.env server.js",
+        "predev": "npm run build",
+        "dev": "node --watch --env-file-if-exists=.env server.js",
+        "user:create": "node --env-file-if-exists=.env Modulars/User/scripts/create-user.js",
+        "backtest": "node --env-file-if-exists=.env Modulars/Trade/scripts/run-backtest.js",
+        "pretest:backend": "npm run build",
+        "test:backend": "node --test \"Modulars/**/tests/*.test.js\"",
         "setup": "npm install --save=false data-forge",
         "c": "npm run clean",
         "clean": "rm -rf build/*",
@@ -39,9 +47,16 @@
         "url": "https://github.com/grademark/grademark/issues"
     },
     "homepage": "https://github.com/grademark/grademark#readme",
+    "engines": {
+        "node": ">=22.9"
+    },
     "dependencies": {
+        "better-sqlite3": "^13.2.0",
         "CBuffer": "^2.2.0",
+        "data-forge": "^1.10.5",
+        "data-forge-indicators": "^0.2.5",
         "dayjs": "^1.8.36",
+        "express": "^5.3.0",
         "grademark": "^0.3.0",
         "mathjs": "^5.10.3",
         "mersennetwister": "^0.2.3",
@@ -59,7 +74,6 @@
         "@types/node": "10.11.4",
         "chai": "4.2.0",
         "data-forge-fs": "^0.0.8",
-        "data-forge-indicators": "^0.2.5",
         "mocha": "5.2.0",
         "nyc": "^15.1.0",
         "source-map-support": "0.5.9",
