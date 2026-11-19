@@ -61,6 +61,11 @@ build/
 todo.txt
 *.bak
 
+# Database
+database/
+*.sqlite
+*.sqlite3
+
 .idea/
 .claude/
 .DS_Store
